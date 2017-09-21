@@ -1,31 +1,27 @@
 pragma solidity ^0.4.9;
 
-contract MLSToken {
-  uint mlsNumber;
-  string homeAddress;
-  uint valueOfHome;
-  address owner;
+import 'zeppelin-solidity/contracts/ownership/Ownable.sol';
 
-  function MLSToken(
+
+contract MLSToken is Ownable {
+
+  uint public mlsNumber;
+  string public homeAddress;
+  uint public valueOfHome;
+
+  event MLSContractCreated(uint MLSNum);
+
+  function MLSCreate(
     uint _mlsNumber,
     string _homeAddress,
-    uint _valueOfHome){
-
-    owner = msg.sender;
+    uint _valueOfHome) onlyOwner {
 
     mlsNumber = _mlsNumber;
     homeAddress = _homeAddress;
     valueOfHome = _valueOfHome;
+
+    MLSContractCreated(mlsNumber);
   }
 
-  function changeOwner onlyOwner(address _receiver){
-    owner = _receiver;
-  }
-
-  modifier onlyOwner(){
-    if(msg.sender !== owner){
-      throw;
-    }
-  }
 
 }
